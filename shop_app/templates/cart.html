@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+<html>
+<head>
+    <title>Корзина</title>
+</head>
+<body>
+
+    {% block content %}
+    <h2>Корзина</h2>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .forma {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight:600;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .buy {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .buy:hover {
+            background-color: #45a049;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+    {% if books_in_cart %}
+        <form method="post" class="forma"  action="{% url 'purchase' %}">
+            {% csrf_token %}
+            <ul>
+                {% for book in books_in_cart %}
+                    <li>{{ book.title }} {{ book.cost }} руб.</li>
+                    <img height="300" width="190" src="{{ book.cover.url }}">
+                {% endfor %}
+            </ul>
+            <p>Общая стоимость: {{ total_cost }} руб.</p>
+            <button class='buy' type="submit">Купить</button>
+        </form>
+    {% else %}
+        <p class="empty-cart-message">Ваша корзина пуста.</p>
+    {% endif %}
+    
+    {% endblock %}
+</body>
+</html>

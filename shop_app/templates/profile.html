@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #3498db;
+        }
+
+        .username {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #27ae60;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        .logout-form {
+            margin-top: 20px;
+        }
+
+        .logout-button {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+
+    <div class="profile-container">
+        <h2>Профиль</h2>
+        <p class="username">Имя пользователя: {{ user.username }}</p>
+
+        {% if confirmed_purchases %}
+            <h3>Мои книги:</h3>
+            <ul>
+                {% for purchase in confirmed_purchases %}
+                    <li>
+                        {{ purchase.book.title }} -
+                        <a href="{{ purchase.book.file.url }}" target="_blank">Скачать</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У вас пока нет купленных книг.</p>
+        {% endif %}
+
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Выйти</button>
+        </form>
+    </div>
+{% endblock %}
