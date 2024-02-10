@@ -1,4 +1,5 @@
 py manage.py migrate
+
 py manage.py runserver
 
 ![image](https://github.com/kiv1337/Online-e-book-store-w-Django/assets/107103362/cbb9aba0-8a67-40ca-a5f6-42d0faaf154b)
